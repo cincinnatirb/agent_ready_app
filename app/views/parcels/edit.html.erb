@@ -1,10 +1,66 @@
-<% content_for :title, "Editing parcel" %>
+<% content_for :title, "Property Address" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing parcel</h1>
+<div class="max-w-2xl mx-auto bg-white shadow sm:rounded-lg">
+  <div class="px-4 py-5 sm:p-6">
+    <h1 class="text-2xl font-bold mb-6">Property Address</h1>
 
-  <%= render "form", parcel: @parcel %>
+    <%= form_with(model: @parcel, class: "space-y-4") do |f| %>
+      <% if @parcel.errors.any? %>
+        <div class="bg-red-50 p-4 rounded-md">
+          <ul class="list-disc list-inside text-red-700">
+            <% @parcel.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
 
-  <%= link_to "Show this parcel", @parcel, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "Back to parcels", parcels_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
+      <div>
+        <%= f.label :street1, "Street Address", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :street1, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if @parcel.errors[:street1].any?}" %>
+        <% if @parcel.errors[:street1].any? %>
+          <p class="mt-1 text-sm text-red-600"><%= @parcel.errors[:street1].join(", ") %></p>
+        <% end %>
+      </div>
+
+      <div>
+        <%= f.label :street2, "Apartment, suite, etc.", class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :street2, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if @parcel.errors[:street2].any?}" %>
+        <% if @parcel.errors[:street2].any? %>
+          <p class="mt-1 text-sm text-red-600"><%= @parcel.errors[:street2].join(", ") %></p>
+        <% end %>
+      </div>
+
+      <div>
+        <%= f.label :city, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :city, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if @parcel.errors[:city].any?}" %>
+        <% if @parcel.errors[:city].any? %>
+          <p class="mt-1 text-sm text-red-600"><%= @parcel.errors[:city].join(", ") %></p>
+        <% end %>
+      </div>
+
+      <div>
+        <%= f.label :state, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.select :state, us_states_options, {}, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if @parcel.errors[:state].any?}" %>
+        <% if @parcel.errors[:state].any? %>
+          <p class="mt-1 text-sm text-red-600"><%= @parcel.errors[:state].join(", ") %></p>
+        <% end %>
+      </div>
+
+      <div>
+        <%= f.label :zip_code, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :zip_code, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if @parcel.errors[:zip_code].any?}" %>
+        <% if @parcel.errors[:zip_code].any? %>
+          <p class="mt-1 text-sm text-red-600"><%= @parcel.errors[:zip_code].join(", ") %></p>
+        <% end %>
+      </div>
+
+      <%= hidden_field_tag :next_step, 'structures' %>
+
+      <div class="flex justify-between pt-4">
+        <%= link_to "Cancel", parcels_path, class: "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+        <%= f.submit "Next", class: "px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+      </div>
+    <% end %>
+  </div>
 </div>

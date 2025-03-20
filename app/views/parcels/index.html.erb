@@ -6,7 +6,7 @@
       <h1 class="text-2xl font-semibold text-gray-900">Parcels</h1>
     </div>
     <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-      <%= link_to "New Parcel", address_parcel_wizard_path, 
+      <%= link_to "New Parcel", new_parcel_path, 
           class: "inline-flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 sm:w-auto" %>
     </div>
   </div>
@@ -40,7 +40,7 @@
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= parcel.state %></td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"><%= parcel.zip_code %></td>
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                    <%= link_to "Edit", address_parcel_wizard_path(id: parcel), 
+                    <%= link_to "Edit", edit_parcel_path(parcel), 
                         class: "text-blue-600 hover:text-blue-900" %>
                     <%= link_to "Delete", parcel_path(parcel), 
                         data: { turbo_method: :delete, turbo_confirm: "Are you sure?" },

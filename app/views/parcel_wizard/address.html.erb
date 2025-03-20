@@ -4,7 +4,7 @@
   <div class="px-4 py-5 sm:p-6">
     <h1 class="text-2xl font-bold mb-6">Property Address</h1>
 
-    <%= form_with(model: @parcel, url: update_address_parcel_wizard_path(@parcel), method: :patch, class: "space-y-4") do |f| %>
+    <%= form_with(model: @parcel, url: update_address_parcel_wizard_path(id: @parcel.id), method: :patch, class: "space-y-4") do |f| %>
       <% if @parcel.errors.any? %>
         <div class="bg-red-50 p-4 rounded-md">
           <ul class="list-disc list-inside text-red-700">
@@ -16,18 +16,10 @@
       <% end %>
 
       <div>
-        <%= f.label :street1, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :street1, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if @parcel.errors[:street1].any?}" %>
-        <% if @parcel.errors[:street1].any? %>
-          <p class="mt-1 text-sm text-red-600"><%= @parcel.errors[:street1].join(", ") %></p>
-        <% end %>
-      </div>
-
-      <div>
-        <%= f.label :street2, class: "block text-sm font-medium text-gray-700" %>
-        <%= f.text_field :street2, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if @parcel.errors[:street2].any?}" %>
-        <% if @parcel.errors[:street2].any? %>
-          <p class="mt-1 text-sm text-red-600"><%= @parcel.errors[:street2].join(", ") %></p>
+        <%= f.label :address, class: "block text-sm font-medium text-gray-700" %>
+        <%= f.text_field :address, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if @parcel.errors[:address].any?}" %>
+        <% if @parcel.errors[:address].any? %>
+          <p class="mt-1 text-sm text-red-600"><%= @parcel.errors[:address].join(", ") %></p>
         <% end %>
       </div>
 

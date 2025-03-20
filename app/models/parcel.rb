@@ -1,5 +1,6 @@
 class Parcel < ApplicationRecord
   has_many :structures, dependent: :destroy
+  accepts_nested_attributes_for :structures, allow_destroy: true
 
   validates :street1, presence: true, length: { maximum: 100 }
   validates :street2, length: { maximum: 100 }

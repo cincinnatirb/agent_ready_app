@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  resources :structures
-  resources :parcels
+  root "parcels#index"
+
+  resources :parcels do
+    resources :structures
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -10,14 +13,4 @@ Rails.application.routes.draw do
   # Render dynamic PWA files from app/views/pwa/*
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-
-  resource :parcel_wizard, only: [], controller: "parcel_wizard" do
-    member do
-      get :address
-      patch :update_address
-    end
-  end
-
-  # Defines the root path route ("/")
-  root "parcels#index"
 end

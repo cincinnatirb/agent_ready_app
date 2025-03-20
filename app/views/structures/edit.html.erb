@@ -1,10 +1,12 @@
 <% content_for :title, "Editing structure" %>
 
-<div class="md:w-2/3 w-full">
-  <h1 class="font-bold text-4xl">Editing structure</h1>
+<%= turbo_frame_tag "structure_form" do %>
+  <div class="max-w-2xl mx-auto bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <h2 class="text-lg font-medium leading-6 text-gray-900 mb-4">Edit Structure</h2>
+      <%= render "form", structure: @structure %>
+    </div>
+  </div>
+<% end %>
 
-  <%= render "form", structure: @structure %>
-
-  <%= link_to "Show this structure", @structure, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-  <%= link_to "Back to structures", structures_path, class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>
-</div>
+<%= link_to "Back", parcel_structures_path(@parcel), class: "w-full sm:w-auto text-center mt-2 sm:mt-0 sm:ml-2 rounded-md px-3.5 py-2.5 bg-gray-100 hover:bg-gray-50 inline-block font-medium" %>

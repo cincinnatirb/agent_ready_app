@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :structure do
-    building_type { "Residential" }
+    building_type { "residential" }
     length { 50 }
     width { 30 }
     nickname { "Main House" }

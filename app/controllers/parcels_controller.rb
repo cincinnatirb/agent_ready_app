@@ -1,13 +1,9 @@
 class ParcelsController < ApplicationController
-  before_action :set_parcel, only: %i[ show edit update destroy ]
+  before_action :set_parcel, only: [ :edit, :update, :show, :destroy ]
 
   # GET /parcels or /parcels.json
   def index
     @parcels = Parcel.all
-  end
-
-  # GET /parcels/1 or /parcels/1.json
-  def show
   end
 
   # GET /parcels/new
@@ -15,46 +11,42 @@ class ParcelsController < ApplicationController
     @parcel = Parcel.new
   end
 
-  # GET /parcels/1/edit
-  def edit
-  end
-
   # POST /parcels or /parcels.json
   def create
     @parcel = Parcel.new(parcel_params)
 
-    respond_to do |format|
-      if @parcel.save
-        format.html { redirect_to @parcel, notice: "Parcel was successfully created." }
-        format.json { render :show, status: :created, location: @parcel }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @parcel.errors, status: :unprocessable_entity }
-      end
+    if @parcel.save
+      redirect_to edit_parcel_path(@parcel), notice: "Parcel was successfully created."
+    else
+      render :new, status: :unprocessable_entity
     end
+  end
+
+  # GET /parcels/1/edit
+  def edit
   end
 
   # PATCH/PUT /parcels/1 or /parcels/1.json
   def update
-    respond_to do |format|
-      if @parcel.update(parcel_params)
-        format.html { redirect_to @parcel, notice: "Parcel was successfully updated." }
-        format.json { render :show, status: :ok, location: @parcel }
+    if @parcel.update(parcel_params)
+      if params[:next_step] == "structures"
+        redirect_to parcel_structures_path(@parcel)
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @parcel.errors, status: :unprocessable_entity }
+        redirect_to parcels_path, notice: "Parcel was successfully updated."
       end
+    else
+      render :edit, status: :unprocessable_entity
     end
+  end
+
+  # GET /parcels/1 or /parcels/1.json
+  def show
   end
 
   # DELETE /parcels/1 or /parcels/1.json
   def destroy
-    @parcel.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to parcels_path, status: :see_other, notice: "Parcel was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    @parcel.destroy
+    redirect_to parcels_path, notice: "Parcel was successfully deleted."
   end
 
   private
@@ -65,6 +57,9 @@ class ParcelsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def parcel_params
-      params.require(:parcel).permit(:street1, :street2, :city, :state, :zip_code)
+      params.require(:parcel).permit(
+        :street1, :street2, :city, :state, :zip_code,
+        structures_attributes: [ :id, :nickname, :building_type, :length, :width, :_destroy ]
+      )
     end
 end
