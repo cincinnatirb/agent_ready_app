@@ -11,6 +11,13 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
+  resource :parcel_wizard, only: [], controller: "parcel_wizard" do
+    member do
+      get :address
+      patch :update_address
+    end
+  end
+
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "parcels#index"
 end
