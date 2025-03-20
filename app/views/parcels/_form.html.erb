@@ -1,0 +1,42 @@
+<%= form_with(model: parcel, class: "contents") do |form| %>
+  <% if parcel.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+      <h2><%= pluralize(parcel.errors.count, "error") %> prohibited this parcel from being saved:</h2>
+
+      <ul class="list-disc ml-6">
+        <% parcel.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :street1 %>
+    <%= form.text_field :street1, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": parcel.errors[:street1].none?, "border-red-400 focus:outline-red-600": parcel.errors[:street1].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :street2 %>
+    <%= form.text_field :street2, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": parcel.errors[:street2].none?, "border-red-400 focus:outline-red-600": parcel.errors[:street2].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :city %>
+    <%= form.text_field :city, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": parcel.errors[:city].none?, "border-red-400 focus:outline-red-600": parcel.errors[:city].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :state %>
+    <%= form.text_field :state, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": parcel.errors[:state].none?, "border-red-400 focus:outline-red-600": parcel.errors[:state].any?}] %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label :zip_code %>
+    <%= form.text_field :zip_code, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": parcel.errors[:zip_code].none?, "border-red-400 focus:outline-red-600": parcel.errors[:zip_code].any?}] %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>

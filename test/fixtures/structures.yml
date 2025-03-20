@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nickname: MyString
+  building_type: MyString
+  length: 1
+  width: 1
+  parcel: one
+
+two:
+  nickname: MyString
+  building_type: MyString
+  length: 1
+  width: 1
+  parcel: two
