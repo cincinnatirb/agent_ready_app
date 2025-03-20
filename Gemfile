@@ -53,7 +53,12 @@ group :development do
 end
 
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
-  gem "capybara"
-  gem "selenium-webdriver"
+  # Use RSpec for testing
+  gem "rspec-rails"
+  
+  # Use FactoryBot for test data
+  gem "factory_bot_rails"
+  
+  # Use shoulda-matchers for validation testing
+  gem "shoulda-matchers"
 end
