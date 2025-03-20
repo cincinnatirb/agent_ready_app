@@ -20,16 +20,17 @@ class ParcelsController < ApplicationController
     # Define the JSON Schema for the response
     json_schema = ParcelEntrySchema.schema
 
-    result = llm_service.chat_with_structured_output(
+    prompt = <<~PROMPT.squish
       "You must look up the actual parcel information from authoritative sources like the county auditor's website or property records. Do not make up or guess information. If you cannot find the structure information with confidence, simply return the address information the user passed in.
 
-Here is some auditor data that may be helpful. If the address matches something in this data, prefer this information over other sources:
+      Here is some auditor data that may be helpful. If the address matches something in this data, prefer this information over other sources:
 
-#{auditor_data}
+      #{auditor_data}
 
-The address to look up is: #{params[:address]}",
-      json_schema
-    )
+      The address to look up is: #{params[:address]}
+    PROMPT
+
+    result = llm_service.chat_with_structured_output(prompt, json_schema)
 
     puts "Result: #{result}"
 
