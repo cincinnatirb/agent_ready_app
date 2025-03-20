@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   resources :parcels do
     resources :structures
+    member do
+      get :review
+    end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

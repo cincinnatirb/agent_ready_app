@@ -1,0 +1,60 @@
+<% content_for :title, "Review" %>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="sm:flex sm:items-center py-6">
+    <div class="sm:flex-auto">
+      <h1 class="text-2xl font-semibold text-gray-900">Review</h1>
+    </div>
+  </div>
+
+  <div class="bg-white shadow sm:rounded-lg mb-8">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h2 class="text-lg font-medium text-gray-900">Address</h2>
+          <p class="mt-2 text-gray-600">
+            <%= @parcel.street1 %><%= ", #{@parcel.street2}" if @parcel.street2.present? %><br>
+            <%= @parcel.city %>, <%= @parcel.state %> <%= @parcel.zip_code %>
+          </p>
+        </div>
+        <div>
+          <%= link_to "Edit Address", edit_parcel_path(@parcel),
+              class: "text-blue-600 hover:text-blue-900" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-medium text-gray-900">Structures</h2>
+        <%= link_to "Edit Structures", parcel_structures_path(@parcel),
+            class: "text-blue-600 hover:text-blue-900" %>
+      </div>
+
+      <ul class="divide-y divide-gray-200">
+        <% @structures.each do |structure| %>
+          <li class="<%= cycle('bg-white', 'bg-gray-50') %> px-4 py-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="font-medium"><%= structure.nickname.presence || structure.building_type.titleize %></p>
+                <p class="text-sm text-gray-500">
+                  <%= structure.building_type.titleize %> •
+                  <%= structure.length %>' × <%= structure.width %>' (<%= structure.length * structure.width %> sq ft)
+                </p>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <div class="mt-8 flex justify-between">
+    <%= link_to "Back", parcel_structures_path(@parcel), 
+        class: "rounded-md bg-white px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 hover:bg-gray-50" %>
+    <%= link_to "Confirm", parcels_path, 
+        class: "rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700" %>
+  </div>
+</div> 

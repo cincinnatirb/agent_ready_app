@@ -1,5 +1,5 @@
 class ParcelsController < ApplicationController
-  before_action :set_parcel, only: [ :edit, :update, :show, :destroy ]
+  before_action :set_parcel, only: [ :edit, :update, :show, :destroy, :review ]
 
   # GET /parcels or /parcels.json
   def index
@@ -47,6 +47,10 @@ class ParcelsController < ApplicationController
   def destroy
     @parcel.destroy
     redirect_to parcels_path, notice: "Parcel was successfully deleted."
+  end
+
+  def review
+    @structures = @parcel.structures
   end
 
   private
