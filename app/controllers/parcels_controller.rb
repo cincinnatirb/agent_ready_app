@@ -19,7 +19,7 @@ class ParcelsController < ApplicationController
       if params[:next_step] == "structures"
         redirect_to parcel_structures_path(@parcel)
       else
-        redirect_to edit_parcel_path(@parcel), notice: "Parcel was successfully created."
+        redirect_to parcels_path, notice: "Parcel was successfully created."
       end
     else
       render :new, status: :unprocessable_entity
