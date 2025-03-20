@@ -9,42 +9,51 @@
     </div>
   <% end %>
 
-  <div>
-    <%= f.label :nickname, class: "block text-sm font-medium text-gray-700" %>
-    <%= f.text_field :nickname, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if structure.errors[:nickname].any?}" %>
-    <% if structure.errors[:nickname].any? %>
-      <p class="mt-1 text-sm text-red-600"><%= structure.errors[:nickname].join(", ") %></p>
-    <% end %>
+  <div class="grid grid-cols-3 gap-4">
+    <%= f.label :nickname, class: "text-sm font-medium text-gray-700 text-right self-center col-span-1" %>
+    <div class="col-span-2">
+      <%= f.text_field :nickname, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if structure.errors[:nickname].any?}" %>
+      <% if structure.errors[:nickname].any? %>
+        <p class="mt-1 text-sm text-red-600"><%= structure.errors[:nickname].join(", ") %></p>
+      <% end %>
+    </div>
   </div>
 
-  <div>
-    <%= f.label :building_type, class: "block text-sm font-medium text-gray-700" %>
-    <%= f.select :building_type, 
-        Structure.building_types.keys.map { |type| [type.titleize, type] },
-        { include_blank: "Select a type" },
-        class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if structure.errors[:building_type].any?}" %>
-    <% if structure.errors[:building_type].any? %>
-      <p class="mt-1 text-sm text-red-600"><%= structure.errors[:building_type].join(", ") %></p>
-    <% end %>
+  <div class="grid grid-cols-3 gap-4">
+    <%= f.label :building_type, class: "text-sm font-medium text-gray-700 text-right self-center col-span-1" %>
+    <div class="col-span-2">
+      <%= f.select :building_type, 
+          Structure.building_types.keys.map { |type| [type.titleize, type] },
+          { prompt: "Select a type" },
+          class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if structure.errors[:building_type].any?}" %>
+      <% if structure.errors[:building_type].any? %>
+        <p class="mt-1 text-sm text-red-600"><%= structure.errors[:building_type].join(", ") %></p>
+      <% end %>
+    </div>
   </div>
 
-  <div>
-    <%= f.label :length, "Length (feet)", class: "block text-sm font-medium text-gray-700" %>
-    <%= f.number_field :length, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if structure.errors[:length].any?}" %>
-    <% if structure.errors[:length].any? %>
-      <p class="mt-1 text-sm text-red-600"><%= structure.errors[:length].join(", ") %></p>
-    <% end %>
+  <div class="grid grid-cols-3 gap-4">
+    <%= f.label :length, "Length (feet)", class: "text-sm font-medium text-gray-700 text-right self-center col-span-1" %>
+    <div class="col-span-2">
+      <%= f.number_field :length, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if structure.errors[:length].any?}" %>
+      <% if structure.errors[:length].any? %>
+        <p class="mt-1 text-sm text-red-600"><%= structure.errors[:length].join(", ") %></p>
+      <% end %>
+    </div>
   </div>
 
-  <div>
-    <%= f.label :width, "Width (feet)", class: "block text-sm font-medium text-gray-700" %>
-    <%= f.number_field :width, class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if structure.errors[:width].any?}" %>
-    <% if structure.errors[:width].any? %>
-      <p class="mt-1 text-sm text-red-600"><%= structure.errors[:width].join(", ") %></p>
-    <% end %>
+  <div class="grid grid-cols-3 gap-4">
+    <%= f.label :width, "Width (feet)", class: "text-sm font-medium text-gray-700 text-right self-center col-span-1" %>
+    <div class="col-span-2">
+      <%= f.number_field :width, class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 #{'border-red-300' if structure.errors[:width].any?}" %>
+      <% if structure.errors[:width].any? %>
+        <p class="mt-1 text-sm text-red-600"><%= structure.errors[:width].join(", ") %></p>
+      <% end %>
+    </div>
   </div>
 
-  <div class="flex justify-end">
+  <div class="flex justify-between pt-4">
+    <%= link_to "Cancel", parcel_structures_path(@parcel), class: "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
     <%= f.submit structure.persisted? ? "Update Structure" : "Add Structure",
         class: "px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
   </div>

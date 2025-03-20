@@ -16,7 +16,11 @@ class ParcelsController < ApplicationController
     @parcel = Parcel.new(parcel_params)
 
     if @parcel.save
-      redirect_to edit_parcel_path(@parcel), notice: "Parcel was successfully created."
+      if params[:next_step] == "structures"
+        redirect_to parcel_structures_path(@parcel)
+      else
+        redirect_to edit_parcel_path(@parcel), notice: "Parcel was successfully created."
+      end
     else
       render :new, status: :unprocessable_entity
     end

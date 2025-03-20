@@ -10,12 +10,25 @@ RSpec.describe "Structures", type: :request do
       get parcel_structures_path(parcel)
       expect(response).to be_successful
     end
+
+    it "displays existing structures" do
+      structure = create(:structure, parcel: parcel, nickname: "Main House")
+      get parcel_structures_path(parcel)
+      expect(response.body).to include("Main House")
+    end
   end
 
   describe "GET /parcels/:parcel_id/structures/new" do
     it "renders a successful response" do
       get new_parcel_structure_path(parcel)
       expect(response).to be_successful
+    end
+
+    context "with turbo_frame request" do
+      it "renders the form within the frame" do
+        get new_parcel_structure_path(parcel), headers: { "Turbo-Frame" => "structure_form" }
+        expect(response.body).to include('turbo-frame id="structure_form"')
+      end
     end
   end
 
@@ -24,6 +37,14 @@ RSpec.describe "Structures", type: :request do
       structure = create(:structure, parcel: parcel)
       get edit_parcel_structure_path(parcel, structure)
       expect(response).to be_successful
+    end
+
+    context "with turbo_frame request" do
+      it "renders the form within the frame" do
+        structure = create(:structure, parcel: parcel)
+        get edit_parcel_structure_path(parcel, structure), headers: { "Turbo-Frame" => "structure_form" }
+        expect(response.body).to include('turbo-frame id="structure_form"')
+      end
     end
   end
 
@@ -35,9 +56,13 @@ RSpec.describe "Structures", type: :request do
         }.to change(Structure, :count).by(1)
       end
 
-      it "redirects to the structures list" do
-        post parcel_structures_path(parcel), params: { structure: valid_attributes }
-        expect(response).to redirect_to(parcel_structures_path(parcel))
+      context "with turbo_stream request" do
+        it "returns turbo_stream response" do
+          post parcel_structures_path(parcel),
+               params: { structure: valid_attributes },
+               headers: { "Accept" => "text/vnd.turbo-stream.html" }
+          expect(response.media_type).to eq Mime[:turbo_stream]
+        end
       end
     end
 
@@ -66,9 +91,13 @@ RSpec.describe "Structures", type: :request do
         expect(structure.nickname).to eq("Updated House")
       end
 
-      it "redirects to the structures list" do
-        patch parcel_structure_path(parcel, structure), params: { structure: new_attributes }
-        expect(response).to redirect_to(parcel_structures_path(parcel))
+      context "with turbo_stream request" do
+        it "returns turbo_stream response" do
+          patch parcel_structure_path(parcel, structure),
+                params: { structure: new_attributes },
+                headers: { "Accept" => "text/vnd.turbo-stream.html" }
+          expect(response.media_type).to eq Mime[:turbo_stream]
+        end
       end
     end
 
@@ -88,10 +117,13 @@ RSpec.describe "Structures", type: :request do
       }.to change(Structure, :count).by(-1)
     end
 
-    it "redirects to the structures list" do
-      structure = create(:structure, parcel: parcel)
-      delete parcel_structure_path(parcel, structure)
-      expect(response).to redirect_to(parcel_structures_path(parcel))
+    context "with turbo_stream request" do
+      it "returns turbo_stream response" do
+        structure = create(:structure, parcel: parcel)
+        delete parcel_structure_path(parcel, structure),
+               headers: { "Accept" => "text/vnd.turbo-stream.html" }
+        expect(response.media_type).to eq Mime[:turbo_stream]
+      end
     end
   end
 end

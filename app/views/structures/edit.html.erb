@@ -1,7 +1,7 @@
 <% content_for :title, "Editing structure" %>
 
 <%= turbo_frame_tag "structure_form" do %>
-  <div class="max-w-2xl mx-auto bg-white shadow sm:rounded-lg">
+  <div class="bg-white shadow sm:rounded-lg">
     <div class="px-4 py-5 sm:p-6">
       <h2 class="text-lg font-medium leading-6 text-gray-900 mb-4">Edit Structure</h2>
       <%= render "form", structure: @structure %>
