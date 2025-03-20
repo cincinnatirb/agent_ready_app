@@ -18,71 +18,7 @@ class ParcelsController < ApplicationController
     auditor_data = File.read(Rails.root.join("auditor_data.txt"))
 
     # Define the JSON Schema for the response
-    json_schema = {
-      type: "object",
-      properties: {
-        parcel: {
-          type: "object",
-          properties: {
-            street1: {
-              type: "string",
-              maxLength: 100,
-              description: "Primary street address"
-            },
-            street2: {
-              type: "string",
-              maxLength: 100,
-              description: "Secondary address line (apartment, suite, etc.)"
-            },
-            city: {
-              type: "string",
-              maxLength: 50,
-              description: "City name"
-            },
-            state: {
-              type: "string",
-              pattern: "^[A-Z]{2}$",
-              description: "Two-letter state code"
-            },
-            zip_code: {
-              type: "string",
-              pattern: "^\\d{5}(-\\d{4})?$",
-              description: "ZIP code in format 12345 or 12345-1234"
-            }
-          },
-          required: [ "street1", "city", "state", "zip_code" ]
-        },
-        structures: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: {
-              building_type: {
-                type: "string",
-                enum: [ "residential", "garage", "shed", "workshop", "barn", "other" ],
-                description: "Type of building"
-              },
-              nickname: {
-                type: "string",
-                description: "Optional nickname for the structure"
-              },
-              length: {
-                type: "integer",
-                minimum: 1,
-                description: "Length in feet"
-              },
-              width: {
-                type: "integer",
-                minimum: 1,
-                description: "Width in feet"
-              }
-            },
-            required: [ "building_type", "length", "width" ]
-          }
-        }
-      },
-      required: [ "parcel", "structures" ]
-    }
+    json_schema = ParcelEntrySchema.schema
 
     result = llm_service.chat_with_structured_output(
       "You must look up the actual parcel information from authoritative sources like the county auditor's website or property records. Do not make up or guess information. If you cannot find the structure information with confidence, simply return the address information the user passed in.
