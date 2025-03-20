@@ -6,6 +6,56 @@ class ParcelsController < ApplicationController
     @parcels = Parcel.all
   end
 
+  # GET /parcels/chat
+  def chat
+  end
+
+  # POST /parcels/process_chat
+  def process_chat
+    llm_service = LlmService.new
+
+    # Read auditor data file
+    auditor_data = File.read(Rails.root.join("auditor_data.txt"))
+
+    # Define the JSON Schema for the response
+    json_schema = ParcelEntrySchema.schema
+
+    prompt = <<~PROMPT.squish
+      "You must look up the actual parcel information from authoritative sources like the county auditor's website or property records. Do not make up or guess information. If you cannot find the structure information with confidence, simply return the address information the user passed in.
+
+      Here is some auditor data that may be helpful. If the address matches something in this data, prefer this information over other sources:
+
+      #{auditor_data}
+
+      The address to look up is: #{params[:address]}
+    PROMPT
+
+    result = llm_service.chat_with_structured_output(prompt, json_schema)
+
+    puts "Result: #{result}"
+
+    @parcel = Parcel.new(result[:structured_output]["parcel"])
+    @structures = result[:structured_output]["structures"].map { |s| Structure.new(s.merge(parcel: @parcel)) }
+
+    if @parcel.valid? && @structures.all?(&:valid?)
+      @parcel.save
+      @structures.each do |structure|
+        structure.parcel = @parcel
+        structure.save
+      end
+      redirect_to review_parcel_path(@parcel), notice: "Parcel was successfully created from chat."
+    else
+      puts "Error: #{@parcel.errors.full_messages}"
+      puts "Structures errors: #{@structures.map(&:errors).flatten}"
+      flash.now[:alert] = "Could not create parcel from chat response. Please try again."
+      render :chat, status: :unprocessable_entity
+    end
+    # rescue StandardError => e
+    #   Rails.logger.error("Error processing chat: #{e.message}")
+    #   flash.now[:alert] = "Error processing chat: #{e.message}"
+    #   render :chat, status: :unprocessable_entity
+  end
+
   # GET /parcels/new
   def new
     @parcel = Parcel.new
