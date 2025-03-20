@@ -8,7 +8,7 @@ class LlmService
   def chat_with_structured_output(prompt, json_schema)
     response = @client.chat(
       parameters: {
-        model: "gpt-4o-mini",
+        model: "gpt-4o",
         messages: [
           {
             role: "system",
@@ -29,7 +29,7 @@ class LlmService
         temperature: 0.7
       }
     )
-    puts "Response: #{response}"
+    # puts "Response: #{response}"
 
     # Extract the response content
     content = response.dig("choices", 0, "message", "content")

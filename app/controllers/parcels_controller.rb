@@ -14,6 +14,9 @@ class ParcelsController < ApplicationController
   def process_chat
     llm_service = LlmService.new
 
+    # Read auditor data file
+    auditor_data = File.read(Rails.root.join("auditor_data.txt"))
+
     # Define the JSON Schema for the response
     json_schema = {
       type: "object",
@@ -82,9 +85,17 @@ class ParcelsController < ApplicationController
     }
 
     result = llm_service.chat_with_structured_output(
-      "Create a parcel with the following address and include appropriate structures: #{params[:address]}",
+      "You must look up the actual parcel information from authoritative sources like the county auditor's website or property records. Do not make up or guess information. If you cannot find the structure information with confidence, simply return the address information the user passed in.
+
+Here is some auditor data that may be helpful. If the address matches something in this data, prefer this information over other sources:
+
+#{auditor_data}
+
+The address to look up is: #{params[:address]}",
       json_schema
     )
+
+    puts "Result: #{result}"
 
     @parcel = Parcel.new(result[:structured_output]["parcel"])
     @structures = result[:structured_output]["structures"].map { |s| Structure.new(s.merge(parcel: @parcel)) }
