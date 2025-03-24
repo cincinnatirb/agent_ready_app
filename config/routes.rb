@@ -2,10 +2,10 @@ Rails.application.routes.draw do
   root "parcels#index"
 
   resources :parcels do
+    get :chat, on: :collection
+    post :process_chat, on: :collection
+    get :review, on: :member
     resources :structures
-    member do
-      get :review
-    end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

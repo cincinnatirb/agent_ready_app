@@ -1,0 +1,36 @@
+<% content_for :title, "Chat with AI" %>
+
+<div class="w-full md:min-w-[33vw] max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+  <div class="py-6">
+    <h1 class="text-2xl font-semibold text-gray-900">Chat with AI</h1>
+    <p class="mt-2 text-sm text-gray-600">
+      Enter an address and the AI will help create a parcel with appropriate structures.
+    </p>
+  </div>
+
+  <div class="bg-white shadow sm:rounded-lg">
+    <div class="px-4 py-5 sm:p-6">
+      <%= form_with(url: process_chat_parcels_path, method: :post, class: "space-y-4") do |f| %>
+        <% if flash[:alert] %>
+          <div class="bg-red-50 p-4 rounded-md">
+            <p class="text-sm text-red-700"><%= flash[:alert] %></p>
+          </div>
+        <% end %>
+
+        <div>
+          <%= f.label :address, "Address", class: "block text-sm font-medium text-gray-700" %>
+          <%= f.text_field :address, 
+              placeholder: "Enter the full address and any details about structures...",
+              class: "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+        </div>
+
+        <div class="flex justify-between pt-4">
+          <%= link_to "Back to Parcels", parcels_path, 
+              class: "px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50" %>
+          <%= f.submit "Process with AI", 
+              class: "px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div> 
