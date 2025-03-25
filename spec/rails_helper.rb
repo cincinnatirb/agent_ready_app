@@ -35,6 +35,10 @@ rescue ActiveRecord::PendingMigrationError => e
 end
 
 RSpec.configure do |config|
+  config.before(:each) do
+    Workflow.instance_variable_set(:@workflows, nil) if defined?(Workflow)
+  end
+
   config.include FactoryBot::Syntax::Methods
 
   config.fixture_paths = [
