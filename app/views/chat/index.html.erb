@@ -1,0 +1,60 @@
+<% content_for :title, "Agent Chat" %>
+
+<div class="w-full max-w-3xl mx-auto px-4 py-6">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-semibold text-gray-900">Agent Chat</h1>
+    <%= button_to "Clear Chat", chat_clear_path, method: :post,
+        class: "px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded text-sm" %>
+  </div>
+
+  <div id="chat-messages" class="bg-white shadow rounded-lg p-4 mb-6 h-[50vh] overflow-y-auto">
+    <% if @chat_history.empty? %>
+      <div class="text-center py-10">
+        <p class="text-gray-500 mb-4">Start chatting to interact with available workflows.</p>
+        <div class="text-sm text-gray-600">
+          <p class="font-medium mb-2">Try asking about:</p>
+          <ul class="list-disc list-inside space-y-1">
+            <li>Adding a new parcel with structures</li>
+            <li>Creating a property at a specific address</li>
+          </ul>
+        </div>
+      </div>
+    <% else %>
+      <% @chat_history.each do |message| %>
+        <div class="chat-message <%= message[:role] == 'user' ? 'text-right' : 'text-left' %> mb-4">
+          <div class="<%= message[:role] == 'user' ? 'bg-blue-100 text-blue-800 ml-auto' : 'bg-gray-100 mr-auto' %> inline-block px-4 py-2 rounded-lg max-w-[80%]">
+            <p class="whitespace-pre-wrap"><%= message[:content] %></p>
+            <% if message[:action] %>
+              <div class="mt-2">
+                <%= link_to message[:action][:text], message[:action][:url],
+                    class: "px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm" %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%= form_with url: chat_message_path, method: :post, id: "message_form", data: { turbo: true }, class: "flex gap-2" do |form| %>
+    <%= form.text_field :message, placeholder: "Type your message...",
+        class: "flex-1 border border-gray-300 rounded-md px-4 py-2 focus:ring-blue-500 focus:border-blue-500",
+        autocomplete: "off", required: true, autofocus: true %>
+
+    <%= form.submit "Send",
+        class: "px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md" %>
+  <% end %>
+</div>
+
+<%# Turbo Stream template for real-time updates %>
+<%= turbo_stream_from "chat" %>
+
+<%# JavaScript to scroll to bottom of chat messages %>
+<%= javascript_tag do %>
+  document.addEventListener('turbo:load', function() {
+    const chatMessages = document.getElementById('chat-messages');
+    if (chatMessages) {
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  });
+<% end %>

@@ -1,0 +1,28 @@
+<%= turbo_stream.replace "chat-messages" do %>
+  <div id="chat-messages" class="bg-white shadow rounded-lg p-4 mb-6 h-[50vh] overflow-y-auto">
+    <% @chat_history.each do |message| %>
+      <div class="chat-message <%= message[:role] == 'user' ? 'text-right' : 'text-left' %> mb-4">
+        <div class="<%= message[:role] == 'user' ? 'bg-blue-100 text-blue-800 ml-auto' : 'bg-gray-100 mr-auto' %> inline-block px-4 py-2 rounded-lg max-w-[80%]">
+          <p class="whitespace-pre-wrap"><%= message[:content] %></p>
+          <% if message[:action] %>
+            <div class="mt-2">
+              <%= link_to message[:action][:text], message[:action][:url],
+                  class: "px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<%= turbo_stream.replace "message_form" do %>
+  <%= form_with url: chat_message_path, method: :post, id: "message_form", data: { turbo: true }, class: "flex gap-2" do |form| %>
+    <%= form.text_field :message, placeholder: "Type your message...",
+        class: "flex-1 border border-gray-300 rounded-md px-4 py-2 focus:ring-blue-500 focus:border-blue-500",
+        autocomplete: "off", required: true, autofocus: true %>
+
+    <%= form.submit "Send",
+        class: "px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md" %>
+  <% end %>
+<% end %>
