@@ -7,6 +7,11 @@ Rails.application.routes.draw do
     get :review, on: :member
     resources :structures
   end
+
+  resources :chat, only: [:index]
+  post "/chat/message", to: "chat#message", as: :chat_message
+  post "/chat/clear", to: "chat#clear", as: :chat_clear
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

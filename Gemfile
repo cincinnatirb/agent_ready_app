@@ -59,10 +59,12 @@ end
 group :test do
   # Use RSpec for testing
   gem "rspec-rails"
-  
+
   # Use FactoryBot for test data
   gem "factory_bot_rails"
-  
+
   # Use shoulda-matchers for validation testing
   gem "shoulda-matchers"
+
+  gem "rails-controller-testing"
 end
