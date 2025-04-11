@@ -18,6 +18,10 @@ gem "stimulus-rails"
 gem "tailwindcss-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
+# OpenAI API client
+gem "ruby-openai", "~> 5.0"
+# Environment variables
+gem "dotenv-rails", groups: [:development, :test]
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
@@ -55,10 +59,12 @@ end
 group :test do
   # Use RSpec for testing
   gem "rspec-rails"
-  
+
   # Use FactoryBot for test data
   gem "factory_bot_rails"
-  
+
   # Use shoulda-matchers for validation testing
   gem "shoulda-matchers"
+
+  gem "rails-controller-testing"
 end
