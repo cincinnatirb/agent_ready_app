@@ -11,7 +11,7 @@ RSpec.describe Workflow do
       name: 'Test Workflow',
       description: 'A test workflow',
       schema_class: 'ParcelEntrySchema',
-      trigger_phrases: ['test', 'workflow test'],
+      trigger_phrases: [ 'test', 'workflow test' ],
       input_instructions: 'Test instructions',
       output_path: 'test_path'
     )
@@ -33,7 +33,7 @@ RSpec.describe Workflow do
       expect(test_workflow.name).to eq('Test Workflow')
       expect(test_workflow.description).to eq('A test workflow')
       expect(test_workflow.schema_class).to eq('ParcelEntrySchema')
-      expect(test_workflow.trigger_phrases).to eq(['test', 'workflow test'])
+      expect(test_workflow.trigger_phrases).to eq([ 'test', 'workflow test' ])
       expect(test_workflow.input_instructions).to eq('Test instructions')
       expect(test_workflow.output_path).to eq('test_path')
     end
@@ -118,7 +118,7 @@ RSpec.describe Workflow do
         described_class.new(
           id: 'second_workflow',
           name: 'Second Workflow',
-          trigger_phrases: ['second workflow', 'another test workflow']
+          trigger_phrases: [ 'second workflow', 'another test workflow' ]
         )
       end
 

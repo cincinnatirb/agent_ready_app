@@ -6,7 +6,7 @@ class ChatController < ApplicationController
   def message
     @chat_history = session[:chat_history] || []
 
-    @chat_history << { role: 'user', content: params[:message] }
+    @chat_history << { role: "user", content: params[:message] }
 
     process_user_message(params[:message])
 
@@ -50,11 +50,11 @@ class ChatController < ApplicationController
 
         # Add assistant message to chat history
         @chat_history << {
-          role: 'assistant',
+          role: "assistant",
           content: "I've created a parcel based on the address you provided. You can review it here:",
           action: {
-            type: 'link',
-            text: 'Review Parcel',
+            type: "link",
+            text: "Review Parcel",
             url: Rails.application.routes.url_helpers.review_parcel_path(parcel)
           }
         }
@@ -63,7 +63,7 @@ class ChatController < ApplicationController
         session[:active_workflow] = nil
       else
         @chat_history << {
-          role: 'assistant',
+          role: "assistant",
           content: "I'm sorry, but I couldn't create the parcel with the information provided. Could you please provide more details?"
         }
       end
@@ -80,20 +80,20 @@ class ChatController < ApplicationController
 
           # Add assistant message to chat history
           @chat_history << {
-            role: 'assistant',
+            role: "assistant",
             content: "I can help you with that. #{workflow.input_instructions}"
           }
         else
           # Workflow not found
           @chat_history << {
-            role: 'assistant',
+            role: "assistant",
             content: "I'm sorry, but I couldn't identify a workflow to help with your request."
           }
         end
       else
         # No workflow identified, provide a generic response
         @chat_history << {
-          role: 'assistant',
+          role: "assistant",
           content: "I'm here to help you with property management. You can ask me to add a parcel, for example."
         }
       end

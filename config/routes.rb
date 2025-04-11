@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :structures
   end
 
-  resources :chat, only: [:index]
+  resources :chat, only: [ :index ]
   post "/chat/message", to: "chat#message", as: :chat_message
   post "/chat/clear", to: "chat#clear", as: :chat_clear
 
