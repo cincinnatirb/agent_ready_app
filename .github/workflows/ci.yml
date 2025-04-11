@@ -42,7 +42,6 @@ jobs:
           RAILS_ENV: test
         run: |
           set -x # Enable command tracing
-          bin/rails bootsnap:cache:clear
           bin/rails db:test:prepare
           bin/rspec
 
