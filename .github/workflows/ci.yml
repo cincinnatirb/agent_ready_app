@@ -40,7 +40,11 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
-        run: bin/rails db:test:prepare test test:system
+        run: |
+          set -x # Enable command tracing
+          bin/rails bootsnap:cache:clear
+          bin/rails db:test:prepare
+          bin/rspec
 
       - name: Keep screenshots from failed system tests
         uses: actions/upload-artifact@v4
